@@ -8,6 +8,10 @@ html {
     scroll-behavior: smooth;
 }
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
 .dropdown:hover>.dropdown-menu {
     display: block;
   }
@@ -47,4 +51,16 @@ html {
     background-image: url(./images/Frame\ 2.png);
     background-size: 50%;
     background-repeat: no-repeat;
+}
+
+.card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.proj:hover {
+    transform: scale(1.5);
+    background-color: #e6e6e6;
+    padding: 1rem;
+    box-shadow: 0 20px 30px rgba(0,0,0,.24), 0 8px 16px rgba(0,0,0,.12);
 }
