@@ -4,18 +4,10 @@ const orderSchema = mongoose.Schema({
 	userId: {
 		type: String,
 		required: [true, "UserId required."]},
-	products: [
-		{
-			productId: {
-				type: String,
-				required: [true, "ProductId required"]
-			},
-			quantity: {
-				type: Number,
-				required: [true, "Quantiy required"]
-			}
-		}
-	],
+	products: {
+		type: Array,
+		required: [true, "Add your items from cart."]
+	},
 	totalAmount : {
 		type: Number,
 		required: [true, "Total amount required."]
@@ -28,4 +20,4 @@ const orderSchema = mongoose.Schema({
 
 const Orders = mongoose.model("Orders", orderSchema);
 
-model.exports = Orders
+module.exports = Orders

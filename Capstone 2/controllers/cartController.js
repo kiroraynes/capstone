@@ -31,9 +31,7 @@ module.exports.addToCart = (req,res) => {
 						result.products.push({
 							productId: req.body.productId,
 							quantity: req.body.quantity,
-							subtotal: function () {
-								return req.body.quantity * prodQuery.price
-							}
+							subtotal: req.body.quantity * prodQuery.price
 						});
 						result.total += req.body.quantity * prodQuery.price
 						result.save()
@@ -63,7 +61,7 @@ module.exports.addToCart = (req,res) => {
 				}
 			}).catch(error => res.send(error))	
 		}  else {
-			console.log(`I'm not yet in the cart`);
+			console.log(`I'm not yet in the cart collection`);
 			Products.findById(req.body.productId)
 			.then(prodQuery => {
 				console.log('Querying product ', prodQuery.stock);
@@ -73,17 +71,9 @@ module.exports.addToCart = (req,res) => {
 						products:[{
 							productId: req.body.productId,
 							quantity: req.body.quantity,
-							subtotal: function () {
-								return req.body.quantity * prodQuery.price 
-							}
+							subtotal: req.body.quantity * prodQuery.price
 						}],
-						total: function () {
-							a = 0;
-							for (let i=0; i < this.products.length; i++) {
-								a += this.products[i].subtotal;
-							}
-							return a
-						}
+						total: req.body.quantity * prodQuery.price
 					});
 					newCart.save()
 					.then(saved => {
@@ -110,6 +100,7 @@ module.exports.removeFromCart = (req,res) => {
 		 	a = result.products[i].quantity;
 		 	result.total -= result.products[i].subtotal;
 		 	result.products.splice(i,1);
+		 	result.save()
 		 	.then(() => {
 		 		Products.findById(req.params.productId)
 		 		.then(prodQuery => {
@@ -128,3 +119,4 @@ module.exports.removeFromCart = (req,res) => {
 
 	}).catch(error => res.send(error))
 }
+

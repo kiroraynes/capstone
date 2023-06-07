@@ -48,3 +48,10 @@ module.exports.loginUser = (request,response) => {
 		return response.send("Both fields need to be filled.")
 	}
 }
+
+module.exports.viewProfile = (req,res) => {
+	usersData = auth.decode(req.headers.authorization);
+
+	Users.findById(usersData.id)
+	.then(result => res.send(result))
+}
