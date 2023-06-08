@@ -121,7 +121,7 @@ module.exports.removeFromCart = (req,res) => {
 }
 
 module.exports.view = (request, response) => {
-	userData = auth.decode(req.headers.authorization);
+	userData = auth.decode(request.headers.authorization);
 
 	Orders.findById(request.params.orderId)
 	.then(result => response.send(result))
