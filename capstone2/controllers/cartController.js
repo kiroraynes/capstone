@@ -120,3 +120,10 @@ module.exports.removeFromCart = (req,res) => {
 	}).catch(error => res.send(error))
 }
 
+module.exports.view = (request, response) => {
+	userData = auth.decode(req.headers.authorization);
+
+	Orders.findById(request.params.orderId)
+	.then(result => response.send(result))
+	.catch(error => response.send(error))
+}
