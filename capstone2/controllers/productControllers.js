@@ -68,5 +68,7 @@ module.exports.archiveProduct = (request, response) => {
 		Products.findByIdAndUpdate(request.params.productId,{isActive: false})
 		.then(result => response.send("Product archived successfully."))
 		.catch(error => response.send(error))
+	} else {
+		return response.send("You don't have access to this route")
 	}
 }
