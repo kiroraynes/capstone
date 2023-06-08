@@ -23,6 +23,7 @@ module.exports.placeOrder = (req,res) => {
 					newOrder.save()
 					.then(saved => {
 						result.products = [];
+						result.total = 0;
 						result.save()
 						.then(saved => res.send('Order Placed'))
 						.catch(error => res.send('Sorry, please try placing order again.'))
