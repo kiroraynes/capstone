@@ -17,10 +17,8 @@ module.exports.addToCart = (req,res) => {
 				a.save()
 				.then(saved => res.send('Product added to cart'))
 				.catch(error => {
-					console.log(error);
 					return res.send('Please try adding the product again')});
 			}).catch(error => {
-				console.log(error)
 				return res.send(error)});
 		}
 		Cart.findOne({user:userData.id})
@@ -42,7 +40,6 @@ module.exports.addToCart = (req,res) => {
 								changesStock(prodQuery);
 							})
 							.catch(error => {
-								console.log('I might have saved but isAdded is false');
 								res.end(error)
 							});
 						} else {
@@ -54,7 +51,6 @@ module.exports.addToCart = (req,res) => {
 								changesStock(prodQuery);
 							})
 							.catch(error => {
-								console.log('I might have saved but isAdded is false');
 								res.end(error)
 							});
 						}
@@ -64,10 +60,8 @@ module.exports.addToCart = (req,res) => {
 					}
 				}).catch(error => res.send(error))	
 			}  else {
-				console.log(`I'm not yet in the cart collection`);
 				Products.findById(req.body.productId)
 				.then(prodQuery => {
-					console.log('Querying product ', prodQuery.stock);
 					if (prodQuery.stock >= req.body.quantity) {
 						let newCart = new Cart({
 							user: userData.id,
@@ -83,13 +77,12 @@ module.exports.addToCart = (req,res) => {
 							changesStock(prodQuery);
 						})
 						.catch(error => {
-							console.log('I might have saved but isAdded is false');
 							res.end(error)
 						});
 					} else {
 						return res.send("Exceeded available quantity")
 					}
-				}).catch(error => console.log(error))
+				}).catch(error => res.send(error))
 			}
 		})
 	}

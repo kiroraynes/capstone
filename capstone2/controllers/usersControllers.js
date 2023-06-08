@@ -25,7 +25,7 @@ module.exports.registerUser = (request, response) => {
 			});
 
 			newUser.save()
-			.then(result => response.send('User has been registered')).catch(error => console.log(error));
+			.then(result => response.send('User has been registered')).catch(error => response.send(error));
 		}
 	}).catch(error => response.send(error));
 }

@@ -20,11 +20,9 @@ module.exports.createProduct = (request,response) => {
 				newProduct.save()
 				.then(result => response.send("Product Created"))
 				.catch(error => {
-					console.log(error);
 					return response.send(error)})
 			}
 		}).catch(error => {
-			console.log(error);
 			return response.send(error)
 		});
 	} else {
@@ -36,7 +34,7 @@ module.exports.allProducts = (request, response) => {
 	Products.find({})
 	.then(result => {
 		return response.send(result)
-	}).catch(error => console.log(error))
+	}).catch(error => response.send(error))
 }
 
 module.exports.activeProducts = (request, response)=> {
