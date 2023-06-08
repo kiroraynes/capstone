@@ -39,7 +39,7 @@ module.exports.placeOrder = (req,res) => {
 module.exports.view = (request, response) => {
 	userData = auth.decode(req.headers.authorization);
 
-	Orders.findById(request.params.orderId)
+	Orders.findById(req.params.orderId)
 	.then(result => response.send(result))
 	.catch(error => response.send(error))
 }
