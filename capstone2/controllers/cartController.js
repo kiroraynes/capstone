@@ -123,7 +123,7 @@ module.exports.removeFromCart = (req,res) => {
 module.exports.view = (request, response) => {
 	userData = auth.decode(request.headers.authorization);
 
-	Orders.findById(request.params.orderId)
+	Cart.findById(request.params.orderId)
 	.then(result => response.send(result))
 	.catch(error => response.send(error))
 }
