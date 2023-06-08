@@ -32,7 +32,7 @@ module.exports.placeOrder = (req,res) => {
 					return response.send(`You don't have items in your cart. Please add first.`)
 				}
 			}
-		})
+		}).catch(error => res.send('You might have not added any products yet.'))
 	}
 }
 
