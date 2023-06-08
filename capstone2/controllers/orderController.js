@@ -6,29 +6,33 @@ const Orders = require('../models/order.js');
 module.exports.placeOrder = (req,res) => {
 	userData = auth.decode(req.headers.authorization);
 
-	Cart.findById(req.body.id)
-	.then(result => {
-		if(!result){
-			return response.send('Cart not found')
-		} else {
-			if (result.products) {
-				let newOrder = new Orders({
-					userId: result.user,
-					products: result.products,
-					totalAmount: result.total
-				})
-				newOrder.save()
-				.then(saved => {
-					result.products = [];
-					result.save()
-					.then(saved => res.send('Order Placed'))
-					.catch(error => res.send('Sorry, please try placing order again.'))
-				}).catch(error => res.send('Sorry, please try placing order again.'))
+	if (userData.isAdmin) {
+		return res.send('Admin account detected. You do not have this functionality.')
+	} else {
+		Cart.findById(req.body.id)
+		.then(result => {
+			if(!result){
+				return response.send('Cart not found')
 			} else {
-				return response.send(`You don't have items in your cart. Please add first.`)
+				if (result.products) {
+					let newOrder = new Orders({
+						userId: result.user,
+						products: result.products,
+						totalAmount: result.total
+					})
+					newOrder.save()
+					.then(saved => {
+						result.products = [];
+						result.save()
+						.then(saved => res.send('Order Placed'))
+						.catch(error => res.send('Sorry, please try placing order again.'))
+					}).catch(error => res.send('Sorry, please try placing order again.'))
+				} else {
+					return response.send(`You don't have items in your cart. Please add first.`)
+				}
 			}
-		}
-	})
+		})
+	}
 }
 
 module.exports.view = (request, response) => {
