@@ -4,6 +4,10 @@
   box-sizing:border-box;
 }
 
-.cardHighlight {
+.productCard {
   min-height: 100%;
+}
+.custom-card-img {
+  width:200px;
+  height:19vw;
 }

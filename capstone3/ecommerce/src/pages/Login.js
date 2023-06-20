@@ -13,12 +13,31 @@ export default function Login(){
 	const {user, setUser} = useContext(UserContext);
 	const navigate = useNavigate();
 
+
+	const retrieveUserDetails = (token) => {
+	  fetch(`${process.env.REACT_APP_API_URL}/user/VIEW`, {
+	    method: "GET",
+	    headers : {'Content-type':'application/json', Authorization : `Bearer ${token}`}
+	  })
+	  .then(result => result.json())
+	  .then(data => {
+	    setUser({
+	      id: data._id,
+	      isAdmin: data.isAdmin
+	    })
+	  })
+	}
+
 	function login(event){
 		event.preventDefault();
 
+		// process a fetch request to the corresponding backend API
+
 		fetch(`${process.env.REACT_APP_API_URL}/user/login`, {
 			method: 'POST',
-			headers: {'Content-type': 'application/json'},
+			headers:{
+				'Content-type': 'application/json'
+			},
 			body: JSON.stringify({
 				email: email,
 				password: password
@@ -26,47 +45,26 @@ export default function Login(){
 		})
 		.then(result => result.json())
 		.then(data => {
-			let token = data.auth;
-			if(token){
-				fetch(`${process.env.REACT_APP_API_URL}/user/view`, {
-					method: 'GET',
-					headers: {'Content-type': 'application/json', Authorization: `Bearer ${token}`}
-				})
-				.then(result => result.json())
-				.then(profile => {
-					console.log('getting profile');
-					setUser({
-						id: profile._id,
-						isAdmin: profile.isAdmin
-					});
-					console.log(user);
-						if(user.isAdmin){
-							navigate('/dashboard');
-						} else {
-							navigate('/')
-						}
-					
-				})
-
+			if(data === false){
 				Swal2.fire({
-					title: 'Login successful',
-					icon: 'success',
-					text: 'Enjoy Shopping!'
+					title : 'Authentication failed!',
+					icon : 'error',
+					text :  'Check your login details and try again.'
 				})
-				localStorage.setItem('token', token)
-
-			} else {
+			}else{
 				Swal2.fire({
-					title: 'Login failed',
-					icon: 'error',
-					text: 'Please check your email or password.'
+					title: 'Log in successful!',
+					icon : 'success',
+					text : 'Welcome to Grocer!'
 				})
+				localStorage.setItem('token', data.auth);
+				retrieveUserDetails(data.auth);
+				navigate('/')
 			}
 		})
 	}
-
 	useEffect(()=>{
-		if(email != '' && password != ''){
+		if(email !== '' && password !== ''){
 			setIsDisabled(false);
 		} else {
 			setIsDisabled(true);
@@ -74,7 +72,7 @@ export default function Login(){
 	}, [email, password])
 	
 	return (
-		(user.id === null) ?
+		(user.id == null) ?
 		<Container>
 			<Row>
 				<Col className = 'col-10 col-lg-6 mx-auto'>

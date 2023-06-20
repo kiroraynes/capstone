@@ -1,14 +1,32 @@
 import React from 'react';
+import {useState} from 'react';
 
-// // Create a Context object
-// // A context object as the name states is a data that can be used to store information that can be shared to other components within the app.
+//Create a Context Object
+//A context Object as the name states is adata that can be used to store information that can be shared to other component/s within the app.
 
-// The Context object is a different approach to passing information between components and allows easier access by avoiding the use of prop passing.
+//The context object is a different approach to passing information between components and allows easir access by avoiding the use of prop passing.
 
-// With the help of createContext() method we are able to create a context stored in variable UserContext.
 
+//With the help of createContext() method we were able to create a context stored in variable UserContext.
 const UserContext = React.createContext();
 
-// The provider component allows other components to consume/use the context object and supply necessary information needed to the context object.
-export const UserProvider = UserContext.Provider;
+export const UserProvider = ({ children }) => {
+	const [user, setUser] = useState({
+	    id: null,
+	    isAdmin: null
+  			});
+  
+
+  const unsetUser = () => {
+    localStorage.clear();
+  };
+
+  const contextValue = {
+    user,
+    setUser,
+    unsetUser
+  };
+
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
+};
 export default UserContext;

@@ -75,7 +75,7 @@ export default function AppNavBar(){
 			                		<img
 			                			src={require('../images/user.png')}
 			                			width='auto'
-			                			height='25'
+			                			height='35'
 			                		/>
 			                	</Button>
 			                	:

@@ -1,6 +1,6 @@
 import {Row, Col, Button, Modal, Form, FloatingLabel, InputGroup} from 'react-bootstrap';
 import {useState, useContext, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Swal2 from 'sweetalert2';
 let categories = ['Beverages', 'Bread/Bakery', 'Canned','Dairy','Dry/Baking Goods','Frozen Foods','Meat','Produce','Cleaners','Paper Goods','Personal Care'];
 
@@ -13,26 +13,38 @@ export default function ProductModal({show, handleClose}){
 	const [price,setPrice] = useState('');
 	const [pic,setPic] = useState('');
 	const [stock, setStock] = useState('');
-	const [isDisabled, setIsDisabled] = useState('false')
+	const [isDisabled, setIsDisabled] = useState(true);
+	const navigate = useNavigate();
 
 	const [cate, setCate] = useState([])
 	
 	useEffect(() => {
 		if (prodName!== '' && description!== '' && category !== '' && price!== '' && pic !=='' && stock !== '') {
-			setIsDisabled(true);
-		} else {
+			
 			setIsDisabled(false);
+		} else {
+			setIsDisabled(true);
 		}
-	},[])
+	},[category,prodName,description,price, pic,stock])
 	useEffect(()=>{
 		setCate(categories.map(i => {
 			return (
-				<option key={i.toLowerCase()}value={i}>{i}</option>
+				<option key={i}value={i}>{i}</option>
 				)
 		}))
 	},[])
 
-	const add = () => {
+	/*useEffect(()=>{
+		console.log(prodName);
+		console.log(description);
+		console.log(category);
+		console.log(price);
+		console.log(pic);
+		console.log(stock);
+	},[category,prodName,description,price, pic,stock])*/
+
+	const add = (event) => {
+		event.preventDefault();
 		fetch(`${process.env.REACT_APP_API_URL}/products/create`, {
 			method: 'POST',
 			headers: {'Content-type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}`},
@@ -60,6 +72,9 @@ export default function ProductModal({show, handleClose}){
 					text: 'Product has been added'
 				})
 			}
+			setTimeout(()=>{
+				navigate('/dashboard')
+			},4000)
 		})
 	}
 	return (
@@ -79,7 +94,8 @@ export default function ProductModal({show, handleClose}){
 		        		</FloatingLabel>
 		        		<FloatingLabel className="mb-3 text-secondary" controlId="formCat" label ='Category'>
 		        		  {/*<Form.Control type="text" placeholder="Enter Description" value={category} />*/}
-		        		  <select class="form-select" onChange = {event => setCat(event.target.value)}>
+		        		  <select className="form-select" value ={category} onChange= {(event) => {setCat(event.target.value);}}>
+		        		    <option value=''>Select Category</option>
 		        		    {cate}
 		        		  </select>
 		        		</FloatingLabel>
