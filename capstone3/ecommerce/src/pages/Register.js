@@ -73,7 +73,7 @@ export default function Register(){
 	}
 	return (
 		(user.id === null) ?
-		<Container className = 'mt-5'> 
+		<Container> 
 			<Row>
 				<Col className = 'col-10 col-lg-6 mx-auto'>
 					<h1 className = 'text-center'>Register</h1>

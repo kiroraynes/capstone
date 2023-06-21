@@ -4,10 +4,84 @@
   box-sizing:border-box;
 }
 
+body {
+  padding-top: 7rem;
+}
 .productCard {
+  object-fit: cover;
+  transition: all 0.3s ease;
   min-height: 100%;
 }
+.productCard:hover {
+  transform: scale(1.05); /* Enlarge the container on hover */
+  border: 2px solid #000; /* Add a dark outline on hover */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Add a slight shadow on hover */
+}
+
+.productCard:hover .img-container {
+  opacity: 0.7; /* Reduce opacity of the image container on hover */
+}
+
 .custom-card-img {
-  width:200px;
-  height:19vw;
+  transition: opacity 0.3s ease; /* Add animation to image opacity changes */
+}
+
+.text-center {
+  transition: opacity 0.3s ease; /* Add animation to text container opacity changes */
+}
+
+.productCard:hover .custom-card-img,
+.productCard:hover .text-center {
+  opacity: 0.7; /* Reduce opacity of the image and text containers on hover */
+}
+.img-container {
+  height: 300px; /* Set the desired height for the image container */
+  overflow: hidden;
+  display: grid;
+    place-items: center;
+}
+
+.productCard .btn-outline-dark {
+  background-color: #000; /* Set initial background color to black */
+  color: #fff; /* Set initial text color to white */
+  border-color: #000; /* Set initial border color to black */
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Add transition effect */
+}
+
+.productCard .btn-outline-dark:hover {
+  background-color: transparent; /* Change the background color on button hover */
+  color: #000; /* Change the text color on button hover */
+  border-color: #000; /* Change the border color on button hover */
+}
+
+.enlarge-on-hover {
+  transition: transform 0.3s ease;
+}
+
+.enlarge-on-hover:hover {
+  transform: scale(1.1);
+}
+
+.product-image {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Add faint shadow around the image */
+}
+
+.quantity-input {
+  width: 60px;
+  text-align: center;
+}
+
+.quantity-button {
+  width: 30px;
+}
+
+.custom-button {
+  background-color: #000000;
+  border-color: #000000;
+}
+
+.custom-button:hover {
+  background-color: #000000;
+  border-color: #000000;
+  opacity: 0.8;
 }

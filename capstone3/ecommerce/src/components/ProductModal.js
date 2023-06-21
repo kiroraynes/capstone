@@ -70,7 +70,8 @@ export default function ProductModal({show, handleClose}){
 					title: 'Success',
 					icon: 'success',
 					text: 'Product has been added'
-				})
+				});
+				handleClose();
 			}
 			setTimeout(()=>{
 				navigate('/dashboard')
