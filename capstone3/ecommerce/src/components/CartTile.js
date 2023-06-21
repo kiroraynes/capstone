@@ -27,6 +27,11 @@ export default function CartTile(props){
 		.then(data => {
 			if(data){
 				setQuantity(quantity+1);
+				Swal2.fire({
+						title:'Changed',
+						icon: 'success',
+						text: 'Quantity Increased'
+					})
 			} else {
 				Swal2.fire({
 					title:'Error',
@@ -40,7 +45,7 @@ export default function CartTile(props){
 	function handleDecreaseQuantity(event){
 		event.preventDefault();
 
-		if (quantity !== 0){
+		if (quantity > 1){
 			fetch(`${process.env.REACT_APP_API_URL}/cart/dec/${props.props.productId}`,{
 				method: 'PATCH',
 				headers:{'Content-type':'application/json',Authorization:`Bearer ${localStorage.getItem('token')}`}
@@ -49,6 +54,33 @@ export default function CartTile(props){
 			.then(data => {
 				if(data){
 					setQuantity(quantity-1);
+					Swal2.fire({
+						title:'Changed',
+						icon: 'success',
+						text: 'Quantity Increased'
+					})
+				} else {
+					Swal2.fire({
+						title:'Error',
+						icon: 'error',
+						text: 'There was an error changing quantity'
+					})
+				}
+			})
+		} else {
+			fetch(`${process.env.REACT_APP_API_URL}/cart/${props.props.productId}`, {
+				method: 'DELETE',
+				headers: {'Content-type':'application/json', Authorization: `Bearer ${localStorage.getItem('token')}`}
+			})
+			.then(result => result.json())
+			.then(data => {
+				if(data){
+					setQuantity(quantity-1);
+					Swal2.fire({
+						title:'Removed',
+						icon: 'success',
+						text: 'Product removed from cart.'
+					})
 				} else {
 					Swal2.fire({
 						title:'Error',
@@ -68,7 +100,6 @@ export default function CartTile(props){
 			})
 			.then(result => result.json())
 			.then(result => {
-				console.log(result)
 				if(result){
 					setName(result.name);
 					setPic(result.pic);
@@ -87,7 +118,9 @@ export default function CartTile(props){
 			let i = data.products.findIndex((product) => product.productId === props.props.productId);
 			if(data){
 				setQuant(quantity);
-				setPrice(data.products[i].subtotal)
+				if(quantity !== 0){
+					setPrice(data.products[i].subtotal.toFixed(2))
+				}
 			}
 		})
 	},[quantity])
@@ -105,7 +138,7 @@ export default function CartTile(props){
 			<td style={{'verticalAlign':'middle'}}>
 				<Container>
 					<Row>
-								<Col xs={1} md={{span:1}} lg={{span:1}} className='mx-1'>
+								<Col xs={12} md={{span:1}} lg={{span:1}} className='mx-1'>
 									<div className='d-flex justify-content-center align-items-center h-100'>
 						            <img as = {Button}
 						        		src={require('../images/minus.png')}
@@ -117,7 +150,7 @@ export default function CartTile(props){
 						            />
 						            </div>
 						        </Col>
-						        <Col xs={8} md={{span:9}} lg={{span:4}} className='mx-1 align-items-center'>
+						        <Col xs={12} md={{span:9}} lg={{span:4}} className='mx-1 my-1 align-items-center'>
 						        	<div className=''>
 						        	<Form.Group className='mb-3'>
 						            <Form.Control
@@ -130,7 +163,7 @@ export default function CartTile(props){
 						            </Form.Group>
 						        	</div>
 						        </Col>
-						        <Col xs={1} md={{span:1}} lg={{span:1}} className='mx-1'>
+						        <Col xs={12} md={{span:1}} lg={{span:1}} className='mx-1'>
 						        	<div className='d-flex justify-content-center align-items-center h-100'>
 						            <img as = {Button}
 						        		src={require('../images/add.png')}

@@ -6,6 +6,7 @@ import Swal2 from 'sweetalert2';
 export default function AdminProductTile(props){
 	const {_id, name, description, category, price, pic, stock, isActive} = props.prodProp;
 	const temp = {
+		_id: _id,
 		name:name,
 		desc: description,
 		cat: category,

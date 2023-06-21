@@ -15,7 +15,6 @@ export default function ProductView(){
 	const [quantity, setQuantity] = useState(0);
 	const navigate = useNavigate();
 	const productId = useParams();
-	console.log(productId)
 
 	useEffect(() => {
 		fetch(`${process.env.REACT_APP_API_URL}/products/${productId.productId}`, {

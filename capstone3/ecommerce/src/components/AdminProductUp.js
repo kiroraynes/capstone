@@ -59,7 +59,6 @@ export default function AdminProductUp({show, handleClose, props}){
 
 	function update(event){
 		event.preventDefault();
-
 		fetch(`${process.env.REACT_APP_API_URL}/products/${_id}`, {
 			method: 'PATCH',
 			headers: {'Content-type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}`},

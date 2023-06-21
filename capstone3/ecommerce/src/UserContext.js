@@ -16,6 +16,7 @@ export const UserProvider = ({ children }) => {
 	    isAdmin: null
   			});
   const [quant, setQuant] = useState(0);
+  const [or,setOr] = useState();
   
 
   const unsetUser = () => {
@@ -27,7 +28,9 @@ export const UserProvider = ({ children }) => {
     setUser,
     unsetUser,
     quant,
-    setQuant
+    setQuant,
+    or,
+    setOr
   };
 
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;

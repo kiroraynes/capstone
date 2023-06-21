@@ -14,6 +14,8 @@ import Products from './pages/Products.js'
 import ProductView from './pages/ProductView.js'
 import Cart from './pages/Cart.js';
 import CartTile from './components/CartTile.js';
+import OrderView from './pages/OrderView.js';
+import Orders from './pages/Orders.js';
 
 function App() {
   const {user, setUser} = useContext(UserContext);
@@ -44,6 +46,8 @@ function App() {
           <Route path = '/dashboard' element = {<Dashboard />} />
           <Route path = '/cart' element = {<Cart />} />
           <Route path = '/carttitle' element = {<CartTile />} />
+          <Route path = '/order/:orderId' element = {<OrderView />} />
+          <Route path = '/orders'  element = {<Orders />} />
           <Route path = '/productView/:productId' element = {<ProductView />} />
           <Route path = '*' element = {<PageNotFound />} />
         </Routes>
