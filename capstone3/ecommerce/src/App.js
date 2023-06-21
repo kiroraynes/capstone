@@ -12,6 +12,9 @@ import Logout from './pages/Logout.js';
 import Dashboard from './pages/Dashboard.js';
 import Products from './pages/Products.js'
 import ProductView from './pages/ProductView.js'
+import Cart from './pages/Cart.js';
+import CartTile from './components/CartTile.js';
+
 function App() {
   const {user, setUser} = useContext(UserContext);
   useEffect(()=> {
@@ -39,6 +42,8 @@ function App() {
           <Route path = '/logout' element = {<Logout />} />
           <Route path = '/products' element = {<Products />} />
           <Route path = '/dashboard' element = {<Dashboard />} />
+          <Route path = '/cart' element = {<Cart />} />
+          <Route path = '/carttitle' element = {<CartTile />} />
           <Route path = '/productView/:productId' element = {<ProductView />} />
           <Route path = '*' element = {<PageNotFound />} />
         </Routes>

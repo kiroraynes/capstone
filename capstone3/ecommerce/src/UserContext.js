@@ -15,6 +15,7 @@ export const UserProvider = ({ children }) => {
 	    id: null,
 	    isAdmin: null
   			});
+  const [quant, setQuant] = useState(0);
   
 
   const unsetUser = () => {
@@ -24,7 +25,9 @@ export const UserProvider = ({ children }) => {
   const contextValue = {
     user,
     setUser,
-    unsetUser
+    unsetUser,
+    quant,
+    setQuant
   };
 
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;

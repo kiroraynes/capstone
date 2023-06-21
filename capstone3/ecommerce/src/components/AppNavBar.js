@@ -37,7 +37,7 @@ export default function AppNavBar(){
 			              <Offcanvas.Body>
 			              <Container fluid>
 							<Row className='align-items-center'>
-							<Col xs={{span:12, order: 3}} md={{span:8, order: 3}} lg={{ span: 8, order: 1 }} className='align-items-center'>
+							<Col xs={{span:12, order: 3}} md={{span:12, order: 3}} lg={{ span: 7, order: 1 }} className='align-items-center'>
 				                <Nav className="justify-content-center flex-fill">
 				                  <Nav.Link href="#action1" className = "fw-semibold">Home</Nav.Link>
 				                  <Nav.Link href="#action2" className = "fw-semibold">What We Offer</Nav.Link>
@@ -57,7 +57,7 @@ export default function AppNavBar(){
 				                </Nav>
 			                </Col>
 			                
-			                <Col xs={{span:12, order: 2}} md={{span:8, order: 2}} lg={{ span: 3, order: 2 }} className='px-0'>
+			                <Col xs={{span:12, order: 2}} md={{span:12, order: 2}} lg={{ span: 3, order: 2 }} className='px-0'>
 			                <Form className='d-flex'>
 			                  <Form.Control
 			                    type="search"
@@ -77,33 +77,53 @@ export default function AppNavBar(){
 								</Button>
 			                	</Form>
 							</Col>
-							<Col xs={{span:12, order: 1}} md={{span:4, order: 1}} lg={{ span: 1, order: 3 }} className="justify-content-end my-2 px-0">
-			                {
-			                	user.id === null ?
-			                	<Button id = 'profile' as = {NavLink} to = '/login' variant="outline-dark" className = 'mx-2'>
-			                		<img
-			                			src={require('../images/user.png')}
-			                			width='auto'
-			                			height='35'
-			                		/>
-			                	</Button>
-			                	:
-			                	<Dropdown id = 'profile'>
-			                		<Dropdown.Toggle variant="outline-dark btn-outline-dark" id="dropdown-basic" className='mx-2'>
-			                		        <img
-			                		        	src={require('../images/user.png')}
-			                		        	width='auto'
-			                		        	height='35'
-			                		        	fluid
-			                		        />
-			                		</Dropdown.Toggle>
-			                		<Dropdown.Menu>
-				                	    <Dropdown.Item href="#/action-1">View Profile</Dropdown.Item>
-				                	    <Dropdown.Item as = {Link} to ='/logout'>Logout</Dropdown.Item>
-			                	    </Dropdown.Menu>
-			                	</Dropdown>
-			                }
-			                </Col>
+							<Col xs={{span:12, order: 1}} md={{span:12, order: 1}} lg={{ span: 2, order: 3 }} className="my-2 px-0 ">
+			                	<Container className='d-flex justify-content-end'>
+			                		<Row className=''>
+			                			<Col xs={{span:6, order: 1}} md={{span:6, order: 1}} lg={{span:6}} className='px-1'>
+			                				                {
+			                				                	user.id === null ?
+			                				                	<Button id = 'profile' as = {NavLink} to = '/login' variant="outline-dark" className = 'mx-2'>
+			                				                		<img
+			                				                			src={require('../images/user.png')}
+			                				                			width='auto'
+			                				                			height='35'
+			                				                		/>
+			                				                	</Button>
+			                				                	:
+			                				                	<Dropdown id = 'profile'>
+			                				                		<Dropdown.Toggle variant="outline-dark btn-outline-dark" id="dropdown-basic" className='mx-2'>
+			                				                		        <img
+			                				                		        	src={require('../images/user.png')}
+			                				                		        	width='auto'
+			                				                		        	height='35'
+			                				                		        	fluid
+			                				                		        />
+			                				                		</Dropdown.Toggle>
+			                				                		<Dropdown.Menu>
+			                					                	    <Dropdown.Item href="#/action-1">View Profile</Dropdown.Item>
+			                					                	    <Dropdown.Item as = {Link} to ='/logout'>Logout</Dropdown.Item>
+			                				                	    </Dropdown.Menu>
+			                				                	</Dropdown>
+			                				                }
+			                				</Col>
+			                				<Col xs={{span:6, order: 1}} md={{span:6, order: 2}} lg={{span:6}} className='px-1'>
+			                				                <Button as={Link} to='/cart' variant="outline-dark btn-outline-dark">
+			                				                	<img
+			                				                	alt=""
+			                				                	src={require('../images/shopping-cart.png')}
+			                				                	width="35"
+			                				                	height="35"
+			                				                	className="d-inline-block align-top"
+			                				                	/>
+			                				                	</Button>
+			                			</Col>
+			                		</Row>
+			                	</Container>
+			                </Col >
+			                {/*<Col xs={{span:12, order: 1}} md={{span:4, order: 1}} lg={{ span: 1, order: 4 }}>
+			                	
+			                </Col>*/}
 			                </Row>
 			                </Container>
 			              </Offcanvas.Body>

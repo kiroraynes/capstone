@@ -67,7 +67,6 @@ body {
 }
 
 .quantity-input {
-  width: 60px;
   text-align: center;
 }
 
@@ -84,4 +83,9 @@ body {
   background-color: #000000;
   border-color: #000000;
   opacity: 0.8;
+}
+
+.go-back-link {
+  color: darkgray;
+  /* Add any other desired styling */
 }
