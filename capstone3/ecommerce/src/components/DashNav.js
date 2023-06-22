@@ -25,7 +25,7 @@ export default function DashNav(){
 			          <Nav>
 			            <Button className = 'mx-3' onClick={handleOpenModal}>Add Product</Button>
 			            <ProductModal show={showModal} handleClose={handleCloseModal}/>
-			            <Button as = {NavLink} to="#features" className	= 'mx-3'>User Orders</Button>
+			            <Button as = {NavLink} to="/adminorders" className	= 'mx-3'>Users' Orders</Button>
 			          </Nav>
 			        </Container>
 			 </Navbar>

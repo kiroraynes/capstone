@@ -4,12 +4,12 @@ import OrdersView from '../components/OrdersView.js';
 import Swal2 from 'sweetalert2';
 import {useParams} from 'react-router-dom';
 
-export default function Orders(){
+export default function AdminOrders(){
 	const [orders, setOrders] = useState([]);
 
 	
 	useEffect(()=>{
-		fetch(`${process.env.REACT_APP_API_URL}/orders/viewAll`, {
+		fetch(`${process.env.REACT_APP_API_URL}/orders/viewAdminAll`, {
 			method:'GET',
 			headers: {'Content-type':'application/json', Authorization:`Bearer ${localStorage.getItem('token')}`
 			}

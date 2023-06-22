@@ -16,6 +16,9 @@ import Cart from './pages/Cart.js';
 import CartTile from './components/CartTile.js';
 import OrderView from './pages/OrderView.js';
 import Orders from './pages/Orders.js';
+import AdminOrders from './pages/AdminOrders.js';
+import Home from './pages/Home.js';
+import FilterProducts from './pages/FilterProducts.js';
 
 function App() {
   const {user, setUser} = useContext(UserContext);
@@ -39,15 +42,18 @@ function App() {
       <BrowserRouter>
         <AppNavBar />
         <Routes>
+          <Route path = '/' element = {<Home />} />
           <Route path = '/login' element = {<Login />} />
           <Route path = '/register' element = {<Register />} />
           <Route path = '/logout' element = {<Logout />} />
           <Route path = '/products' element = {<Products />} />
+          <Route path = '/products/:cat' element = {<FilterProducts />} />
           <Route path = '/dashboard' element = {<Dashboard />} />
           <Route path = '/cart' element = {<Cart />} />
           <Route path = '/carttitle' element = {<CartTile />} />
           <Route path = '/order/:orderId' element = {<OrderView />} />
           <Route path = '/orders'  element = {<Orders />} />
+          <Route path = '/adminorders'  element = {<AdminOrders />} />
           <Route path = '/productView/:productId' element = {<ProductView />} />
           <Route path = '*' element = {<PageNotFound />} />
         </Routes>

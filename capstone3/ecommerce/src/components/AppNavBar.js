@@ -39,7 +39,7 @@ export default function AppNavBar(){
 							<Row className='align-items-center'>
 							<Col xs={{span:12, order: 3}} md={{span:12, order: 3}} lg={{ span: 7, order: 1 }} className='align-items-center'>
 				                <Nav className="justify-content-center flex-fill">
-				                  <Nav.Link href="#action1" className = "fw-semibold">Home</Nav.Link>
+				                  <Nav.Link href="/" className = "fw-semibold">Home</Nav.Link>
 				                  <Nav.Link href="#action2" className = "fw-semibold">What We Offer</Nav.Link>
 				                  <Nav.Link href="/products" className = "fw-semibold">Products</Nav.Link>
 				                  <NavDropdown
@@ -49,7 +49,7 @@ export default function AppNavBar(){
 				                  {
 				                  	categories.map(cat => {
 				                  					return (
-				                  						<NavDropdown.Item href = {`action-${cat}`}>{cat}</NavDropdown.Item>
+				                  						<NavDropdown.Item href = {`/products/${cat}`}>{cat}</NavDropdown.Item>
 				                  						)
 				                  				})
 				                  }
@@ -91,7 +91,25 @@ export default function AppNavBar(){
 			                				                		/>
 			                				                	</Button>
 			                				                	:
-			                				                	<Dropdown id = 'profile'>
+			                				                	
+			                				                		user.isAdmin ?
+			                				                		                	<Dropdown id = 'profile'>
+			                				                		                		<Dropdown.Toggle variant="outline-dark btn-outline-dark" id="dropdown-basic" className='mx-2'>
+			                				                		                		        <img
+			                				                		                		        	src={require('../images/user.png')}
+			                				                		                		        	width='auto'
+			                				                		                		        	height='35'
+			                				                		                		        	fluid
+			                				                		                		        />
+			                				                		                		</Dropdown.Toggle>
+			                				                		                		<Dropdown.Menu>
+			                				                			                	    <Dropdown.Item href="#/action-1">View Profile</Dropdown.Item>
+			                				                			                	    <Dropdown.Item as = {Link} to ='/dashboard'>Dashboard</Dropdown.Item>
+			                				                			                	    <Dropdown.Item as = {Link} to ='/logout'>Logout</Dropdown.Item>
+			                				                		                	    </Dropdown.Menu>
+			                				                		                	</Dropdown>
+			                				                		:
+			                				                		<Dropdown id = 'profile'>
 			                				                		<Dropdown.Toggle variant="outline-dark btn-outline-dark" id="dropdown-basic" className='mx-2'>
 			                				                		        <img
 			                				                		        	src={require('../images/user.png')}
@@ -102,22 +120,42 @@ export default function AppNavBar(){
 			                				                		</Dropdown.Toggle>
 			                				                		<Dropdown.Menu>
 			                					                	    <Dropdown.Item href="#/action-1">View Profile</Dropdown.Item>
+			                					                	    <Dropdown.Item as = {Link} to ='/orders'>Orders</Dropdown.Item>
 			                					                	    <Dropdown.Item as = {Link} to ='/logout'>Logout</Dropdown.Item>
 			                				                	    </Dropdown.Menu>
 			                				                	</Dropdown>
+			                				                	
 			                				                }
 			                				</Col>
-			                				<Col xs={{span:6, order: 1}} md={{span:6, order: 2}} lg={{span:6}} className='px-1'>
-			                				                <Button as={Link} to='/cart' variant="outline-dark btn-outline-dark">
-			                				                	<img
-			                				                	alt=""
-			                				                	src={require('../images/shopping-cart.png')}
-			                				                	width="35"
-			                				                	height="35"
-			                				                	className="d-inline-block align-top"
-			                				                	/>
-			                				                	</Button>
-			                			</Col>
+			                				{
+			                					user.id ?
+			                						<Col xs={{span:6, order: 1}} md={{span:6, order: 2}} lg={{span:6}} className='px-1'>
+			                						                <Button as={Link} to='/cart' variant="outline-dark btn-outline-dark">
+			                						                	<img
+			                						                	alt=""
+			                						                	src={require('../images/shopping-cart.png')}
+			                						                	width="35"
+			                						                	height="35"
+			                						                	className="d-inline-block align-top"
+			                						                	/>
+			                						                	</Button>
+			                					</Col>
+			                					:
+			                					user.isAdmin ?
+			                					<></>
+			                					:
+			                						<Col xs={{span:6, order: 1}} md={{span:6, order: 2}} lg={{span:6}} className='px-1'>
+			                						                <Button as={Link} to='/cart' variant="outline-dark btn-outline-dark">
+			                						                	<img
+			                						                	alt=""
+			                						                	src={require('../images/shopping-cart.png')}
+			                						                	width="35"
+			                						                	height="35"
+			                						                	className="d-inline-block align-top"
+			                						                	/>
+			                						                	</Button>
+			                					</Col>
+			                				}
 			                		</Row>
 			                	</Container>
 			                </Col >

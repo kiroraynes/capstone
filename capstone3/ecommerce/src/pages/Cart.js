@@ -27,6 +27,12 @@ export default function Cart(){
 						)
 				}))
 				
+			} else {
+				Swal2.fire({
+						title:'Error',
+						icon: 'error',
+						text: 'There was an error viewing cart.'
+				})
 			}
 		})
 	},[quant])

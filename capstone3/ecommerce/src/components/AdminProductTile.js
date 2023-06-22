@@ -40,7 +40,7 @@ export default function AdminProductTile(props){
 					Swal2.fire({
 						title: 'Success',
 						icon:'success',
-						text: 'Product Successfully Unarchived'
+						text: 'Product Successfully Archived'
 					});
 				} else {
 					Swal2.fire({

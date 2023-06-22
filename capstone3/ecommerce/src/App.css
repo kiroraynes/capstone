@@ -89,3 +89,15 @@ body {
   color: darkgray;
   /* Add any other desired styling */
 }
+
+.banner-image {
+  height:auto;
+  width:75%;
+  transform: scaleX(-1);
+}
+
+.center-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

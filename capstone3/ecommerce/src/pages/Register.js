@@ -26,6 +26,7 @@ export default function Register(){
 	const navigate = useNavigate();
 	useEffect(() => {
 		if ((firstName!== '' && lastName!== '' && mobNum != '' && street!== '' && city!= '' && province !='' && country != '' && postalCode !='' && email!== '' && password1 !=='' && password2 !== '' ) && password1 === password2) {
+			// console.log([firstName, lastName, mobNum, street, city, province, country, postalCode,email,password1])
 			setIsDisabled(false);
 		} else {
 			setIsDisabled(true);
@@ -38,7 +39,7 @@ export default function Register(){
 		fetch(`${process.env.REACT_APP_API_URL}/user/register`, {
 			method: 'POST',
 			headers: {'Content-type': 'application/json'},
-			body: {
+			body: JSON.stringify({
 				firstName: firstName,
 				lastName: lastName,
 				mobileNo: mobNum,
@@ -51,7 +52,7 @@ export default function Register(){
 				},
 				email: email,
 				password: password1
-			}
+			})
 		})
 		.then(result => result.json())
 		.then(data => {

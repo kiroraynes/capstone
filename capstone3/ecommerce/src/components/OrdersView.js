@@ -1,17 +1,16 @@
 import {Row, Col, Button, Container, Table, Form} from 'react-bootstrap';
 import {useState, useEffect, useContext} from 'react';
-import Order from '../components/Order.js';
+import Order from './/Order.js';
 import UserContext from '../UserContext.js';
 import Swal2 from 'sweetalert2';
 import {useParams} from 'react-router-dom';
 
-export default function OrderView(){
-	let orderId = useParams();
+export default function OrderView(props){
 	const [product, setProduct] = useState([]);
 	const [total, setTotal] = useState(0);
 	
 	useEffect(()=>{
-		fetch(`${process.env.REACT_APP_API_URL}/orders/view/${orderId.orderId}`, {
+		fetch(`${process.env.REACT_APP_API_URL}/orders/view/${props.props}`, {
 			method:'GET',
 			headers: {'Content-type':'application/json', Authorization:`Bearer ${localStorage.getItem('token')}`
 			}
@@ -31,10 +30,10 @@ export default function OrderView(){
 	},[])
 
 	return (
-		<Container className='mt-1'>
+		<Container className='mt-5'>
 			<Row>
 				<Col lg={8} className='mx-auto'>
-					<h1>Order #{orderId.orderId}</h1>
+					<h1>Order #{props.props}</h1>
 					<Table >
 					      <thead>
 					        <tr>

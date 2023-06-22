@@ -14,10 +14,10 @@ export default function ProductView(){
 
 	const [quantity, setQuantity] = useState(0);
 	const navigate = useNavigate();
-	const productId = useParams();
+	const {productId} = useParams();
 
 	useEffect(() => {
-		fetch(`${process.env.REACT_APP_API_URL}/products/${productId.productId}`, {
+		fetch(`${process.env.REACT_APP_API_URL}/products/${productId}`, {
 			method: 'GET',
 			headers: {'Content-type': 'application/json'}
 		})
@@ -63,7 +63,7 @@ export default function ProductView(){
 			method: 'POST',
 			headers: {'Content-type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}`},
 			body: JSON.stringify({
-				productId: productId.productId,
+				productId: productId,
 				quantity: quantity
 			})
 		})
