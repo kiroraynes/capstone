@@ -34,7 +34,7 @@ export default function OrderView(){
 		<Container className='mt-1'>
 			<Row>
 				<Col lg={8} className='mx-auto'>
-					<h1>Order #{orderId.orderId}</h1>
+					<h1 className='fs-2'>Order #{orderId.orderId}</h1>
 					<Table >
 					      <thead>
 					        <tr>

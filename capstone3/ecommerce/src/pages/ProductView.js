@@ -1,7 +1,8 @@
 import {Container, Row, Col, Button,Form} from 'react-bootstrap';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import Swal2 from 'sweetalert2';
+import UserContext from '../UserContext.js';
 
 export default function ProductView(){
 	const [prodName, setProd] = useState('');
@@ -11,6 +12,8 @@ export default function ProductView(){
 	const [pic,setPic] = useState('');
 	const [stock, setStock] = useState('');
 	const [isDisabled, setIsDisabled] = useState(true);
+
+	const {user} = useContext(UserContext);
 
 	const [quantity, setQuantity] = useState(0);
 	const navigate = useNavigate();
@@ -58,31 +61,38 @@ export default function ProductView(){
 
 	function addToCart(event){
 		event.preventDefault();
+		console.log('Add to cart invoked!')
 
-		fetch(`${process.env.REACT_APP_API_URL}/user/addCart`, {
-			method: 'POST',
-			headers: {'Content-type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}`},
-			body: JSON.stringify({
-				productId: productId,
-				quantity: quantity
+		if(user.id){
+			fetch(`${process.env.REACT_APP_API_URL}/user/addCart`, {
+				method: 'POST',
+				headers: {'Content-type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}`},
+				body: JSON.stringify({
+					productId: productId,
+					quantity: quantity
+				})
 			})
-		})
-		.then(result => result.json())
-		.then(data => {
-			if(data){
-				Swal2.fire({
-					title: 'Success',
-					icon: 'success',
-					text: 'Added to Cart!'
-				})
-			} else {
-				Swal2.fire({
-					title: 'Error',
-					icon: 'error',
-					text: 'Please try again.'
-				})
-			}
-		})
+			.then(result => result.json())
+			.then(data => {
+				if(data){
+					Swal2.fire({
+						title: 'Success',
+						icon: 'success',
+						text: 'Added to Cart!'
+					})
+				} else {
+					Swal2.fire({
+						title: 'Error',
+						icon: 'error',
+						text: 'Please try again.'
+					})
+				}
+			})
+		} else {
+			navigate('/login');
+		}
+
+		
 	}
 
 	return (

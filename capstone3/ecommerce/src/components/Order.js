@@ -38,7 +38,7 @@ export default function Order(props){
 			<td style={{'verticalAlign':'middle'}}>
 				{quantity}
 			</td>
-			<td style={{'verticalAlign':'middle'}}>${price}</td>
+			<td style={{'verticalAlign':'middle'}}>${price.toFixed(2)}</td>
 		</tr>
 		)
 }

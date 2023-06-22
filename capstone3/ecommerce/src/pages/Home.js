@@ -2,6 +2,8 @@ import {Container, Row, Col, Button,Form, Image} from 'react-bootstrap';
 import {useState, useEffect} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import Swal2 from 'sweetalert2';
+import Features from '../components/Features.js';
+// import Footer from '../components/Footer.js'
 
 export default function Home(){
 
@@ -32,6 +34,18 @@ export default function Home(){
 					</Col>
 				</Row>
 			</Container>
+			<Container className='mt-5'>
+				<Row>
+					<div className='text-center'><h2>What We Offer</h2></div>
+				</Row>
+				<Row className='mt-1'>
+					<Col>
+						<Features />
+					</Col>
+				</Row>
+			</Container>
+
+			{/*<Footer />*/}
 		</>
 		)
 }

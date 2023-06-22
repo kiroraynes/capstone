@@ -21,7 +21,7 @@ export default function AdminProductUp({show, handleClose, props}){
 	useEffect(()=>{
 			setCate(categories.map(i => {
 				return (
-					<option key={i}value={i}>{i}</option>
+					<option key={i} value={i}>{i}</option>
 					)
 			}));
 		},[]);

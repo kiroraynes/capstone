@@ -19,7 +19,7 @@ export default function Orders(){
 			if(data){
 				setOrders(data.map((i) => {
 					return(
-						<Col lg={12} className='mx-auto'><OrdersView props={i._id}/></Col>
+						<Col key={i._id} lg={12} className='mx-auto'><OrdersView props={i._id}/></Col>
 						)
 				}))
 				

@@ -7,6 +7,9 @@
 body {
   padding-top: 7rem;
 }
+.cardHighlight {
+  min-height: 100%;
+}
 .productCard {
   object-fit: cover;
   transition: all 0.3s ease;

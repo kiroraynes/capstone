@@ -29,7 +29,7 @@ export default function ProductModal({show, handleClose}){
 	useEffect(()=>{
 		setCate(categories.map(i => {
 			return (
-				<option key={i}value={i}>{i}</option>
+				<option key={i} value={i}>{i}</option>
 				)
 		}))
 	},[])

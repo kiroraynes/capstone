@@ -33,7 +33,7 @@ export default function OrderView(props){
 		<Container className='mt-5'>
 			<Row>
 				<Col lg={8} className='mx-auto'>
-					<h1>Order #{props.props}</h1>
+					<h1 className='fs-2'>Order #{props.props}</h1>
 					<Table >
 					      <thead>
 					        <tr>

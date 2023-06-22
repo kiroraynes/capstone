@@ -19,9 +19,9 @@ export default function AdminOrders(){
 			if(data){
 				setOrders(data.map((i) => {
 					return(
-						<Col lg={12} className='mx-auto'><OrdersView props={i._id}/></Col>
+						<Col key={i} lg={12} className='mx-auto'><OrdersView props={i._id}/></Col>
 						)
-				}))
+				}));
 				
 			}
 		})

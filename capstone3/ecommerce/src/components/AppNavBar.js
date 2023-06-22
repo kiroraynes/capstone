@@ -15,7 +15,7 @@ export default function AppNavBar(){
 		<>
 			<Navbar expand='lg' className="fixed-top bg-body-tertiary mb-3 shadow p-3 bg-white rounded fs-5">
 			          <Container fluid className='mx-md-5'>
-			            <Navbar.Brand href="#" className = 'fw-semibold'>
+			            <Navbar.Brand href="/" className = 'fw-semibold'>
 			            <img
 				            alt=""
 				            src={require('../images/logo.png')}
@@ -49,7 +49,7 @@ export default function AppNavBar(){
 				                  {
 				                  	categories.map(cat => {
 				                  					return (
-				                  						<NavDropdown.Item href = {`/products/${cat}`}>{cat}</NavDropdown.Item>
+				                  						<NavDropdown.Item key ={cat} href = {`/products/${cat}`}>{cat}</NavDropdown.Item>
 				                  						)
 				                  				})
 				                  }
@@ -128,7 +128,7 @@ export default function AppNavBar(){
 			                				                }
 			                				</Col>
 			                				{
-			                					user.id ?
+			                					user.id && !user.isAdmin ?
 			                						<Col xs={{span:6, order: 1}} md={{span:6, order: 2}} lg={{span:6}} className='px-1'>
 			                						                <Button as={Link} to='/cart' variant="outline-dark btn-outline-dark">
 			                						                	<img
@@ -141,7 +141,7 @@ export default function AppNavBar(){
 			                						                	</Button>
 			                					</Col>
 			                					:
-			                					user.isAdmin ?
+			                					user.id && user.isAdmin ?
 			                					<></>
 			                					:
 			                						<Col xs={{span:6, order: 1}} md={{span:6, order: 2}} lg={{span:6}} className='px-1'>
