@@ -8,55 +8,64 @@ module.exports.createProduct = (request,response) => {
 		Products.findOne({name: request.body.name})
 		.then(result => {
 			if (result){
-				return response.send("Product already exist")
+				return response.send(false)
 			} else {
 				let newProduct = new Products({
 					name: request.body.name,
 					description: request.body.description,
+					category: request.body.category,
 					price: request.body.price,
+					pic: request.body.pic,
 					stock: request.body.stock
 				})
 	
 				newProduct.save()
-				.then(result => response.send("Product Created"))
+				.then(result => response.send(true))
 				.catch(error => {
-					return response.send(error)})
+					return response.send(false)})
 			}
 		}).catch(error => {
-			return response.send(error)
+			return response.send(false)
 		});
 	} else {
-		return response.send("You don't have this privilege. Contact Administrator if this is a mistake.")
+		return response.send(false)
 	}
 }
 
 module.exports.allProducts = (request, response) => {
-	Products.find({})
-	.then(result => {
-		return response.send(result)
-	}).catch(error => response.send(error))
+	userData = auth.decode(request.headers.authorization)
+	if(userData.isAdmin){
+		Products.find({})
+		.then(result => {
+
+			return response.send(result)
+		}).catch(error => response.send(false))
+	} else {
+		return reponse.send(false)
+	}
+	
 }
 
 module.exports.activeProducts = (request, response)=> {
 	Products.find({isActive: true})
 	.then(result => {response.send(result)})
-	.catch(error => response.send(error))
+	.catch(error => response.send(false))
 }
 
 module.exports.singleProduct = (request, response) => {
 	Products.findById(request.params.productId)
 	.then(result => response.send(result))
-	.catch(error => response.send(error));
+	.catch(error => response.send(false));
 }
 
 module.exports.updateProduct = (request, response) => {
 	userData = auth.decode(request.headers.authorization)
 	if(userData.isAdmin){
-		Products.findByIdAndUpdate(request.params.productId,request.body)
-			.then(result => response.send("Product Updated."))
-			.catch(error => response.send(error));
+		Products.findByIdAndUpdate(request.params.productId, request.body)
+			.then(result => response.send(true))
+			.catch(error => response.send(false));
 	} else {
-		return response.send("You don't have access to this route.") 
+		return response.send(false) 
 	}
 }
 
@@ -64,9 +73,30 @@ module.exports.archiveProduct = (request, response) => {
 	userData = auth.decode(request.headers.authorization)
 	if(userData.isAdmin){
 		Products.findByIdAndUpdate(request.params.productId,{isActive: false})
-		.then(result => response.send("Product archived successfully."))
-		.catch(error => response.send(error))
+		.then(result => response.send(true))
+		.catch(error => response.send(false))
 	} else {
-		return response.send("You don't have access to this route")
+		return response.send(false)
 	}
+}
+
+module.exports.unarchiveProduct = (request, response) => {
+	userData = auth.decode(request.headers.authorization)
+	if(userData.isAdmin){
+		Products.findByIdAndUpdate(request.params.productId,{isActive: true})
+		.then(result => response.send(true))
+		.catch(error => response.send(false))
+	} else {
+		return response.send('No access')
+	}
+}
+
+
+module.exports.catProducts = (request, response)=> {
+	cat = request.params.cat;
+	console.log(cat);
+
+	Products.find({category: cat})
+	.then(result => {response.send(result)})
+	.catch(error => response.send(false))
 }

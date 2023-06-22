@@ -10,9 +10,12 @@ router.get('/allProducts', productControllers.allProducts);
 router.get('/activeProducts', productControllers.activeProducts);
 
 
+
 router.get('/:productId', productControllers.singleProduct);
 router.patch('/:productId', auth.verify, productControllers.updateProduct);
-router.put('/:productId',auth.verify, productControllers.archiveProduct);
+router.delete('/:productId',auth.verify, productControllers.archiveProduct);
+router.put('/:productId',auth.verify, productControllers.unarchiveProduct);
+router.get('/category/:cat', productControllers.catProducts);
 
 module.exports = router;
 

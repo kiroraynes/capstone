@@ -8,18 +8,18 @@ module.exports.addToCart = (req,res) => {
 	userData = auth.decode(req.headers.authorization);
 
 	if (userData.isAdmin){
-		return res.send('Admin detected. You do not have this functionality.')
+		return res.send(false)
 	} else {
 		function changesStock(a){
 			Products.findById(req.body.productId)
 			.then(a => {
 				a.stock -= req.body.quantity;
 				a.save()
-				.then(saved => res.send('Product added to cart'))
+				.then(saved => res.send(true))
 				.catch(error => {
-					return res.send('Please try adding the product again')});
+					return res.send(false)});
 			}).catch(error => {
-				return res.send(error)});
+				return res.send(false)});
 		}
 		Cart.findOne({user:userData.id})
 		.then(result => {
@@ -40,7 +40,7 @@ module.exports.addToCart = (req,res) => {
 								changesStock(prodQuery);
 							})
 							.catch(error => {
-								res.end(error)
+								res.end(false)
 							});
 						} else {
 							result.products[i].quantity+=req.body.quantity;
@@ -51,14 +51,14 @@ module.exports.addToCart = (req,res) => {
 								changesStock(prodQuery);
 							})
 							.catch(error => {
-								res.end(error)
+								res.end(false)
 							});
 						}
 						
 					} else {
-						return res.end("Exceeded available quantity")
+						return res.end(false)
 					}
-				}).catch(error => res.send(error))	
+				}).catch(error => res.send(false))	
 			}  else {
 				Products.findById(req.body.productId)
 				.then(prodQuery => {
@@ -77,12 +77,12 @@ module.exports.addToCart = (req,res) => {
 							changesStock(prodQuery);
 						})
 						.catch(error => {
-							res.end(error)
+							res.end(false)
 						});
 					} else {
-						return res.send("Exceeded available quantity")
+						return res.send(false)
 					}
-				}).catch(error => res.send(error))
+				}).catch(error => res.send(false))
 			}
 		})
 	}
@@ -104,23 +104,103 @@ module.exports.removeFromCart = (req,res) => {
 		 			prodQuery.stock += a;
 		 			prodQuery.save()
 		 			.then()
-		 			.catch(() => res.send(`Can't communicate with database.`))
+		 			.catch(() => res.send(false))
 		 		})
-		 		res.send('Product removed')
+		 		res.send(true)
 		 	})
-		 	.catch(() => res.send('Product could not be removed. Check your cart again.'))
+		 	.catch(() => res.send(false))
 		 } else {
-		 	return res.send(`Product not in cart.`)
+		 	return res.send(false)
 		 }
 
 
-	}).catch(error => res.send(error))
+	}).catch(error => res.send(false))
 }
 
 module.exports.view = (request, response) => {
 	userData = auth.decode(request.headers.authorization);
 
-	Cart.findById(request.params.cartId)
+	Cart.findOne({user: userData.id})
 	.then(result => response.send(result))
-	.catch(error => response.send(error))
+	.catch(error => response.send(false))
+}
+
+
+module.exports.decreaseQuantity = (req, res) => {
+	userData = auth.decode(req.headers.authorization);
+	prodId = req.params.productId;
+
+	Cart.findOne({user: userData.id})
+	.then(result => {
+		i = result.products.findIndex((product) => product.productId === prodId);
+		function changesStock(a){
+			Products.findById(prodId)
+			.then(b => {
+				b.stock += 1;
+				b.save()
+				.then(saved => res.send(true))
+				.catch(error => {
+					return res.send(false)});
+			}).catch(error => {
+				return res.send(false)});
+		}
+
+		Products.findById(prodId)
+		.then(a => {
+			if (i>=0) {
+				result.products[i].quantity -= 1;
+				result.products[i].subtotal -= a.price;
+				result.total -= a.price
+				result.save()
+				.then(saved => {
+					changesStock(a);
+				})
+				.catch(error => {
+					res.end(false)
+				});
+			}
+		})
+
+	})
+}
+
+module.exports.increaseQuantity = (req, res) => {
+	userData = auth.decode(req.headers.authorization);
+	prodId = req.params.productId;
+
+	Cart.findOne({user: userData.id})
+	.then(result => {
+		i = result.products.findIndex((product) => product.productId === prodId);
+
+		function changesStock(a){
+			Products.findById(prodId)
+			.then(b => {
+				b.stock -= 1;
+				b.save()
+				.then(saved => res.send(true))
+				.catch(error => {
+					return res.send(false)});
+			}).catch(error => {
+				return res.send(false)});
+		}
+
+		Products.findById(prodId)
+		.then(a => {
+			console.log(a);
+
+			if (i>=0) {
+				result.products[i].quantity += 1;
+				result.products[i].subtotal += a.price;
+				result.total += a.price;
+				result.save()
+				.then(saved => {
+					changesStock(a);
+				})
+				.catch(error => {
+					res.end(false)
+				});
+			}
+		})
+
+	})
 }

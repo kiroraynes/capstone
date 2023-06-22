@@ -7,7 +7,7 @@ module.exports.registerUser = (request, response) => {
 	Users.findOne({email: request.body.email})
 	.then(result => {
 		if (result){
-			return response.send("Email is taken. Try logging in or registering a new email.")
+			return response.send(false)
 		} else {
 			let newUser = new Users({
 				firstName: request.body.firstName,
@@ -25,9 +25,9 @@ module.exports.registerUser = (request, response) => {
 			});
 
 			newUser.save()
-			.then(result => response.send('User has been registered')).catch(error => response.send(error));
+			.then(result => response.send(true)).catch(error => response.send(false));
 		}
-	}).catch(error => response.send(error));
+	}).catch(error => response.send(false));
 }
 
 module.exports.loginUser = (request,response) => {
@@ -36,16 +36,16 @@ module.exports.loginUser = (request,response) => {
 		.then(result => {
 			if(result){
 				if (bcrypt.compareSync(request.body.password, result.password)) {
-					return response.send(auth.createAccessToken(result))
+					return response.send({auth: auth.createAccessToken(result)})
 				} else {
-					return response.send("Please check your password.")
+					return response.send(false)
 				}
 			} else {
-				return response.send("User not found.")
+				return response.send(false)
 			}
-		}).catch(error => response.send(error));
+		}).catch(error => response.send(false));
 	} else {
-		return response.send("Both fields need to be filled.")
+		return response.send(false)
 	}
 }
 
@@ -54,4 +54,5 @@ module.exports.viewProfile = (req,res) => {
 
 	Users.findById(usersData.id)
 	.then(result => res.send(result))
+	.catch(error => res.send(false))
 }

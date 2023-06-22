@@ -7,12 +7,14 @@ module.exports.placeOrder = (req,res) => {
 	userData = auth.decode(req.headers.authorization);
 
 	if (userData.isAdmin) {
-		return res.send('Admin account detected. You do not have this functionality.')
+		console.log('not admin false')
+		return res.send(false)
 	} else {
-		Cart.findById(req.body.id)
+		Cart.findOne({user: userData.id})
 		.then(result => {
+			console.log(result);
 			if(!result){
-				return response.send('Cart not found')
+				return res.send(false)
 			} else {
 				if (result.products) {
 					let newOrder = new Orders({
@@ -25,14 +27,14 @@ module.exports.placeOrder = (req,res) => {
 						result.products = [];
 						result.total = 0;
 						result.save()
-						.then(saved => res.send('Order Placed'))
-						.catch(error => res.send('Sorry, please try placing order again.'))
-					}).catch(error => res.send('Sorry, please try placing order again.'))
+						.then(saved => res.send({id: newOrder.id, response: true}))
+						.catch(error => res.send(false))
+					}).catch(error => res.send(false))
 				} else {
-					return response.send(`You don't have items in your cart. Please add first.`)
+					return res.send(false)
 				}
 			}
-		}).catch(error => res.send('You might have not added any products yet.'))
+		}).catch(error => res.send(false))
 	}
 }
 
@@ -41,5 +43,33 @@ module.exports.view = (request, response) => {
 
 	Orders.findById(request.params.orderId)
 	.then(result => response.send(result))
-	.catch(error => response.send(error))
+	.catch(error => response.send(false))
+}
+
+module.exports.viewAll = (request, response) => {
+	userData = auth.decode(request.headers.authorization);
+	userId = userData.id;
+	
+	Orders.find({userId: userId})
+	.then(result => {
+		console.log(result);
+
+		response.send(result)})
+	.catch(error => response.send(false))
+	
+}
+
+module.exports.viewAdminAll = (request, response) => {
+	userData = auth.decode(request.headers.authorization);
+	userId = userData.id;
+	
+	if(userData.isAdmin){
+		Orders.find({})
+	.then(result => {
+		response.send(result)})
+	.catch(error => response.send(false))
+} else {
+	response.send(false)
+}
+	
 }
